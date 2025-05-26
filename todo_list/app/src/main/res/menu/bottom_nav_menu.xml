@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_login"
+        android:icon="@drawable/login_24dp_1f1f1f"
+        android:title="登录" />
+    <item
+        android:id="@+id/nav_register"
+        android:icon="@drawable/baseline_account_box_24"
+        android:title="注册" />
+</menu>

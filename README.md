@@ -1,5 +1,53 @@
 # Android-Studio
     这是一个Android-studio学习过程的记录文档，我会将每天学了什么内容，做了什么功能放在这个文档中。  
+## 5.26  
+### 1、fragment
+fragment可以将Activity拆分成多个完全独立封装的可重用组件，每个组件都有自己的生命周期和UI布局，每个fragment都是独立的模块，并与它所绑定的Activity紧密联系在一起。在初始创建fragment的时候，会有如下代码：  
+![alt text](image/fragment.png)
+ARG_PARAM1和ARG_PARAM2两个变量用于定义传递给片段的参数的键名，通常用于从Bundle中检索某个特定的值。成员变量mParam1和mParam2用于存储传递给片段的参数的实际值。BlankFragment是片段的空构造函数，所有Fragment类都需要一个空的公共构造函数，因为系统会在需要的时候实例化片段对象。  
+newInstance是一个静态工厂方法，用于创建BlankFragment的实例，它接受两个参数param1和param2，将它们存储在一个Bundle中，并将此Bundle与片段关联。  
+### 2、fragment生命周期  
+fragment的生命周期基本上和Activity类似，其余多出来的事件，则是特定于Fragment和Fragment添加到它的父Activity的方式的事件。具体调用方式和调用时机如下图所示：  
+![alt text](image/fragment生命周期1.png)
+![alt text](image/fragment生命周期2.png)
+### 3、fragment manager
+每个Activity都包含一个Fragment Manager来管理它所包含的Fragment，通过执行Fragment Transaction来添加、删除和替换Fragment。
+![alt text](image/fragmentmanager.png)
+可以看到通过以上的方式就可以把一个Fragment放到Activity中，当然也可以删除或者替换一个Fragment，比如：fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container));可以删除一个Fragment；fragmentTransaction.replace(R.id.fragment_container,new BlankFragment2());可以替换一个fragment。  
+### 4、改变To-do List列表的外观
+给前两天做的To-do List中的每一条增加类似于便签条的外观，首先在colors.xml中多设置几种颜色：
+![alt text](image/colors.png)
+然后定义一个新的ToDoListItemView.java文件，代码如下所示：
+![alt text](image/ToDoListItemView.png)
+这段代码对AppCompatTextView进行了扩展，首先成员变量：marginPaint 和 linePaint: 分别定义用于绘制边距线和行线的 Paint 对象。paperColor: 保存纸张背景颜色。margin: 存储自定义边距尺寸的浮点值。然后就是三种构造函数，在这三种构造函数中都调用了init函数来进行视图的初始化。init函数获取资源对象并初始化Paint对象。然后重写了onDraw函数来进行自定义绘制，总共绘制了三条线，然后使用 canvas.translate(margin, 0) 来偏移绘制位置，确保文本不会贴在左边界，使文本以边距起始位置为准开始绘制。  
+最后效果图如下：
+![alt text](image/To-doList外观.png)
+### 5、登录注册页面
+这部分做了一个可以登录注册的Activity，登录和注册为两个Fragment，在整个Activity下方设计了一个底边栏，底边栏有两个按钮可以跳转到不同的Fragment。
+#### (1)、底边栏
+在res/menu文件夹下新建一个bottom_nav_menu.xml用于设计底边栏，代码如下：
+![alt text](image/bottom_anv_menu.png)
+这里放了两个按钮，每个按钮都有一个图片，图片在https://fonts.google.com/icons 上下载下来，然后保存到res/drawable下。  
+然后就可以直接使用这个底边栏了，实际上，这个只算是一个条目栏，无论放在Activity顶部还是底部都是可以的，放在底部就是底边栏了：
+![alt text](image/底边栏.png)
+通过这样的方法即可使用，其中constraintVertival_bias为1时就是底边栏，为0时就是顶边栏。在这里面还设计了一个nav_item_color就是可以在被点击的时候显示黑色，未点击时为灰色：
+![alt text](image/nav_item_color.png)
+在login.java中实现这个底边栏的功能：
+![alt text](image/login.png)
+通过替换Fragment来实现页面的切换。
+#### (2)、fragment_login
+登录的fragment，具体的布局怎么实现的可以直接看代码，布局如下：
+![alt text](image/login布局.png)
+这里讲一些个人认为比较重要的部分：
+首先最外面的布局是一个固定大小的，大小和log中的fragment一样，里面还有一个constraintlayout包裹住账号和密码输入，这个layout的大小不是固定的，是wrap_content，之所以会有间距是通过padding实现的。然后对于每个布局包括输入框都有一个圆角边框，是通过写了一个border.xml然后让背景为border来实现的，border.xml代码如下：
+![alt text](image.png)
+然后在login.java中实现了登录按钮的功能，会按照正则表达式来看看格式是否正确，如果账号形式不是邮箱地址，那么就会弹出一个提示说账号格式不正确，如果密码不足八位就会提示密码格式不正确，具体代码如下：
+![alt text](image/login逻辑.png)
+### 6、Toast
+Toast是一种短暂出现的通知，它们只会出现几秒就消失，Toast不会获取焦点，不会打断当前活动的应用程序，可以通过Toast toast = Toast.makeText(context，信息，持续时间)；来实现。通常情况下，使用标准的Toast就足够了，但是也可以自定义它的外观和其在屏幕上出现的位置，通过toast.setGravity(位置，x偏移量，y偏移量)；来更改出现的位置。一般来说使用时格式如下：
+![alt text](image/Toast(代码).png)
+这里使用getContext()是因为这段代码在Fragment里面，他要请求宿主Activity的Context，如果是Activity使用Toast，可以直接用Context，第二个参数是显示的内容，第三个参数是显示持续时间，Toast.LENGTH_SHORT代表持续时间短，Toast.LENGTH_LONG代表持续时间长。一般显示效果如下：
+![alt text](image/Toast.png)
 ## 5.23  
 ### 1、Activity与UI   
  Activity是很重要的一个组件，每一个Activity都表示一个页面，大部分的Activity都被设计为占据整个屏幕。在使用Android Studio每当创建一个新的Activity的时候，会自动生成如下的一段框架代码以及一个xml文件：

@@ -16,12 +16,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <TextView
+        <com.example.todo_list.ToDoListItemView
             android:id="@+id/content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="20"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="28sp" />
 
         <Button
             android:id="@+id/delete"

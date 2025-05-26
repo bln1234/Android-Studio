@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         todoList.setLayoutManager(layoutManager);
         List<String> list = new ArrayList<>();
-        list.add("待办事项1");
-        list.add("待办事项2");
+        list.add(" 待办事项1");
+        list.add(" 待办事项2");
         todoAdapter adapter = new todoAdapter(list);
         todoList.setAdapter(adapter);
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String newTodo = todo.getText().toString();
                 if(newTodo !="") {
+                    newTodo = " " + newTodo;
                     list.add(newTodo);
                     adapter.notifyItemInserted(list.size() - 1);
                     todo.setText("");

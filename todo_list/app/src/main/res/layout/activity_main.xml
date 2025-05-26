@@ -26,7 +26,8 @@
             android:layout_weight="10"
             android:ems="10"
             android:hint="输入你的待办事项"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/submit"
