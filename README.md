@@ -17,7 +17,7 @@ Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:555-2368"));
 ComponentName cn = intent.resolveActivity(getPackageManager());  
 #### (3)、使用Intent广播事件
 Intent 可以在进程之间发送结构化的消息。因此，可以通过实现 Broadcast Receiver 来监听和响应应用程序内的这些 Broadcast Intent。  
-### 2、使用Intent和BoardcastReceiver来获取手机联系人信息
+### 2、使用Intent来获取手机联系人信息
 #### (1)、建立MainActivity
 首先建立一个MainActivity页面，在这个页面上放一个ListView，对于这个Activity需要实现的内容如下：
 ![alt text](image/获取信息List%20View.png)
@@ -35,13 +35,15 @@ Intent 可以在进程之间发送结构化的消息。因此，可以通过实�
 初始为此界面然后点击按钮后跳转到如下页面：
 ![alt text](image/联系人列表（2）.png)
 在这个页面下可以选择联系人，选完之后会跳回原来的界面，同时在原来的界面上显示联系人姓名
-![alt text](image/联系人列表（3）.png)
+![alt text](image/联系人列表（3）.png)  
 ### 3、使用BroadcastReceiver来监听电量变化
 使用BroadcastReceiver可以监听Broadcast Intent,要使 Broadcast Receiver能够接收广播， 就需要对其进行注册， 要创建一个新的Broadcast Receiver，需要扩展Broadcast Receiver类并重写onReceive事件处理程序。比如：
-![alt text](image/Battery%20Receiver.png)
+![alt text](image/Battery%20Receiver.png)  
 onReceiver函数在广播事件发生时被系统调用，如上图中就是在onReceiver函数被调用时显示当前电量百分比。关于这个类的调用方式如下：
-
-
+![alt text](image/BatteryChange.png)  
+先新建一个BatteryReceiver对象，新建一个IntentFilter对象，并指定Intent.ACTION_BATTERY_CHANGED作为过滤的动作类型，ACTION_BATTERY_CHANGED 是一个 Sticky Broadcast，它意味着即使在注册后，也可以立即收到当前电池状态。然后注册这个batteryReceiver。  
+在每次电量发生变化时，都会在屏幕中弹出一个Toast：
+![alt text](image/BroadcastToast.png)
 ## 5.26  
 ### 1、fragment
 fragment可以将Activity拆分成多个完全独立封装的可重用组件，每个组件都有自己的生命周期和UI布局，每个fragment都是独立的模块，并与它所绑定的Activity紧密联系在一起。在初始创建fragment的时候，会有如下代码：  
