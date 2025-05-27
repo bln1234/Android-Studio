@@ -1,5 +1,47 @@
 # Android-Studio
     这是一个Android-studio学习过程的记录文档，我会将每天学了什么内容，做了什么功能放在这个文档中。  
+## 5.27
+### 1、Intent
+Intent是一种消息传递机制，可以在应用程序内使用，也可以在应用程序间使用。可以用于启动一个特定的Service或Activity、广播某个事件已经发生。
+#### (1)、启动Activity
+显式启动一个新的Activity类可以使用如下方式：  
+Intent intent = new Intent(MyActivity.this, MyOtherActivity.class);  
+startActivity(intent);  
+如果是在fragment中使用Intent打开另一个Activity，那么需要Intent intent = new Intent(getActivity(),MyOtherActivity.class);  
+#### (2)、隐式Intent和运行时迟绑定
+隐式的Intent提供了一种机制，可以让匿名的应用程序组件响应动作请求。这意味着可以要求系统启动一个可执行给定动作的 Activity，而不必知道需要启动哪个应用程序或 Activity。  
+例如：
+Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:555-2368"));  
+该Activity会提供对这个电话号码进行拨号的动作。  
+通过Intent启动第三方程序很方便，但是平时无法保证用户设备上安装了特定的某个应用程序，因此在startActivity之前，可以通过Intent的resolveActivity方法确定能否调用：  
+ComponentName cn = intent.resolveActivity(getPackageManager());  
+#### (3)、使用Intent广播事件
+Intent 可以在进程之间发送结构化的消息。因此，可以通过实现 Broadcast Receiver 来监听和响应应用程序内的这些 Broadcast Intent。  
+### 2、使用Intent和BoardcastReceiver来获取手机联系人信息
+#### (1)、建立MainActivity
+首先建立一个MainActivity页面，在这个页面上放一个ListView，对于这个Activity需要实现的内容如下：
+![alt text](image/获取信息List%20View.png)
+在这里创建一个新的Cursor来便利存储在联系人列表中的联系人，并使用SimpleCursorArrayAdapter把它绑定到ListView上。然后为ListView添加一个onItemClickListener，当从列表中选择一个联系人时应该将该项的路径返回给调用Activity。这是一个子Activity。
+#### (2)、建立ContactPickerTesterActivity
+这个Activity包含了一个用来显示选中的联系人的TextView和一个用来启动子Activity的Button，具体逻辑代码如下：
+![alt text](image/ContactPickerTesterActivity.png)
+首先在onCreate中绑定按钮功能，在按下按钮时会使用Intent连接到联系人列表，然后启动这个intent，而且是带有返回值的启动方式。  
+然后在onActivityResult函数中做的事情为接受返回信息，如果返回信息正确，就把名字显示在TextView上。
+#### (3)、AndroidManifest.xml
+在AndroidManifest.xml中设置权限等：
+![alt text](image/权限（联系人）.png)
+#### (4)、实现效果
+![alt text](image/联系人列表（1）.png)
+初始为此界面然后点击按钮后跳转到如下页面：
+![alt text](image/联系人列表（2）.png)
+在这个页面下可以选择联系人，选完之后会跳回原来的界面，同时在原来的界面上显示联系人姓名
+![alt text](image/联系人列表（3）.png)
+### 3、使用BroadcastReceiver来监听电量变化
+使用BroadcastReceiver可以监听Broadcast Intent,要使 Broadcast Receiver能够接收广播， 就需要对其进行注册， 要创建一个新的Broadcast Receiver，需要扩展Broadcast Receiver类并重写onReceive事件处理程序。比如：
+![alt text](image/Battery%20Receiver.png)
+onReceiver函数在广播事件发生时被系统调用，如上图中就是在onReceiver函数被调用时显示当前电量百分比。关于这个类的调用方式如下：
+
+
 ## 5.26  
 ### 1、fragment
 fragment可以将Activity拆分成多个完全独立封装的可重用组件，每个组件都有自己的生命周期和UI布局，每个fragment都是独立的模块，并与它所绑定的Activity紧密联系在一起。在初始创建fragment的时候，会有如下代码：  
