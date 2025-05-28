@@ -1,5 +1,48 @@
 # Android-Studio
     这是一个Android-studio学习过程的记录文档，我会将每天学了什么内容，做了什么功能放在这个文档中。  
+## 5.28
+### 1、AlertDialog类
+AlertDialog可以提供各种选项，可以为一些最常见的用例构造对话框，包括向用户呈现一条消息，并以按钮的形式提供1～3个选项，提供一个文本输入框供用户进行输入，使用方法为：
+![alt text](image/AlertDialog.png)
+先新建一个对象，然后为标题，内容，按钮赋值，最后启动这个AlertDialog。  
+### 2、登录注册页面完善
+#### 1、添加注册页面
+![alt text](image/注册页面.png)  
+里面相关函数的实现逻辑和登录页面类似
+#### 2、效果
+初始进入页面如下：  
+![alt text](image/登录注册（1）.png)
+点击下方底边栏的按钮回跳转到对应的fragment，比如点击注册就会显示注册的Fragment：
+![alt text](image/登录注册（2）.png)
+在这个页面下输入帐号、密码、密码确认如果格式错误就会弹出Toast进行提示，例如：  
+![alt text](image/登录注册Toast（1）.png)  
+![alt text](image/登录注册Toast（2）.png)  
+![alt text](image/登录注册Toast（3）.png)  
+如果注册成功就会弹出Alert：  
+![alt text](image/Alert.png)  
+在这个Alert中选择确定就会切换到登录Fragment而且会直接填充帐号和密码：  
+![alt text](image/登录注册（3）.png)  
+在这个页面点击登录会跳转到Todo_List页面：  
+![alt text](image/登录注册（4）.png)
+### 3、SQLite数据库
+SQLite是一个关系数据库管理系统，可以使用SQLite数据库来记录数据，比如在上述的登录注册中加入一个SQLite数据库即可存储用户数据，可以通过用户数据来进行登录验证或者注册，使用方法如下：
+![alt text](image/SQLiteOpenHelper(1).png)
+![alt text](image/SQLiteOpenHelper(2).png)
+通过重写SQLiteOpenHelper的构造函数、onCreate和onUpgrade方法来分别处理创建新数据库和升级到新版本数据库的过程。  
+代码中TABLE_CREATE字符串是用来创建新数据库的SQL语句。在磁盘上不存在数据库的时候，通过onCreate创建一个新数据库。onUpgrade是用来当存在数据库版本不一致时，磁盘上的数据哭版本进行升级到当前版本。使用的方法为删除旧表然后生成新表。addUser和getUser是两个函数，分别用来添加用户和查找用户。  
+这样的一个SQLiteOpenHelper的使用方法如下：
+首先新建一个对象private DatabaseHelper db;  
+db = new DatabaseHelper(getContext());  
+然后就可以直接使用这样的一个db了，比如我们可以db.addUser(email,password);来创建用户。
+### 4、给登录注册页面加上用户数据库
+现在可以检测用户密码输入是否正确了，在注册页面中注册用户会添加到数据库中，然后在登录界面如果登录输入的账号不存在就会显示：
+![alt text](image/登录注册（5）.png)
+点击确认就可以直接前往注册Fragment，同时在注册界面的账号上会直接填写刚刚登录使用的账号：
+![alt text](image/登录注册（6）.png)
+在密码不匹配的时候会弹出Toast提示密码错误：
+![alt text](image/登录注册（7）.png)
+### 5、Content Provider
+
 ## 5.27
 ### 1、Intent
 Intent是一种消息传递机制，可以在应用程序内使用，也可以在应用程序间使用。可以用于启动一个特定的Service或Activity、广播某个事件已经发生。
