@@ -1,5 +1,10 @@
 # Android-Studio
     这是一个Android-studio学习过程的记录文档，我会将每天学了什么内容，做了什么功能放在这个文档中。  
+## 5.29
+![alt text](image/meituanlogin(1).png)
+![alt text](image/meituanlogin(2).png)
+![alt text](image/meituanlogin(3).png)
+![alt text](image/meituanlogin(4).png)
 ## 5.28
 ### 1、AlertDialog类
 AlertDialog可以提供各种选项，可以为一些最常见的用例构造对话框，包括向用户呈现一条消息，并以按钮的形式提供1～3个选项，提供一个文本输入框供用户进行输入，使用方法为：
