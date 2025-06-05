@@ -1,6 +1,8 @@
 package com.example.login;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -8,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView passwordLogin;
     private TextView problem;
     private Fragment fragment;
+    private CheckBox checkBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         privacy = findViewById(R.id.privacy);
         passwordLogin = findViewById(R.id.passwordLogin);
         problem = findViewById(R.id.problem);
+        checkBox = findViewById(R.id.checkbox);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"这是返回上一页的按钮",Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this,"这是返回上一页的按钮",Toast.LENGTH_SHORT).show();
             }
         });
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -107,7 +112,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkBox.isChecked()){
+                    Toast.makeText(MainActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("登录失败");
+                    builder.setMessage("请先阅读并同意《美团用户协议》和《隐私政策》！");
+                    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -115,4 +140,5 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main,menu);
         return true;
     }
+
 }

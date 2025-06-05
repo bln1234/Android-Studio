@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 /**
@@ -59,7 +60,6 @@ public class captcha extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +67,8 @@ public class captcha extends Fragment {
         View rootview = inflater.inflate(R.layout.fragment_captcha, container, false);
         final EditText phoneNumber = rootview.findViewById(R.id.phoneNumber);
         final Drawable clearDrawable = getResources().getDrawable(R.drawable.ic_clear);
+        Button loginBtn = getActivity().findViewById(R.id.loginBtn);
+        loginBtn.setEnabled(false);
         phoneNumber.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         phoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,19 +76,33 @@ public class captcha extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
+                boolean hasText = s.length() > 0;
+                if (hasText) {
                     // 如果有输入内容，显示叉图标
                     phoneNumber.setCompoundDrawablesWithIntrinsicBounds(null, null, clearDrawable, null);
                 } else {
                     // 如果无输入内容，隐藏叉图标
                     phoneNumber.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                 }
+                loginBtn.setEnabled(hasText);
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
         });
-
+        phoneNumber.setOnTouchListener((v, event) -> {
+            // 判断是否点击了右侧图标区域
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                // 获取 drawableEnd 的宽度
+                Drawable drawable = phoneNumber.getCompoundDrawables()[2]; // DRAWABLE_RIGHT = 2
+                if (drawable != null && event.getRawX() >= (phoneNumber.getRight() - drawable.getBounds().width() - phoneNumber.getPaddingRight())) {
+                    // 清空输入框
+                    phoneNumber.setText("");
+                    return true;
+                }
+            }
+            return false;
+        });
         return rootview;
     }
 

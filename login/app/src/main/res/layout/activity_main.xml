@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingVertical="30dp"
-        android:paddingHorizontal="30dp">
+        android:paddingHorizontal="20dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -37,11 +37,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/checkbox"
                 android:layout_width="28dp"
                 android:layout_height="wrap_content"
-                android:theme="@style/My_CheckBox"/>
+                app:buttonTint="@color/custom_checkbox"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,8 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="获取短信验证码"
-            android:backgroundTint="@color/yellow"
-            android:textColor="@color/black"/>
+            android:backgroundTint="@color/button_background"
+            android:textColor="@color/button_text_color"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

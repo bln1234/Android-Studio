@@ -1,5 +1,12 @@
 # Android-Studio
     这是一个Android-studio学习过程的记录文档，我会将每天学了什么内容，做了什么功能放在这个文档中。  
+## 5.30
+![alt text](image/meituanlogin(5).png)
+![alt text](image/meituanlogin(6).png)
+![alt text](image/meituanlogin(7).png)
+![alt text](image/meituanlogin(8).png)
+![alt text](image/meituanlogin(9).png)
+![alt text](image/meituanlogin(10).png)
 ## 5.29
 ![alt text](image/meituanlogin(1).png)
 ![alt text](image/meituanlogin(2).png)
